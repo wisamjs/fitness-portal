@@ -1,12 +1,13 @@
 import React, {PropTypes} from 'react';
 import { VictoryAxis, VictoryChart, VictoryBar, VictoryTheme } from 'victory';
 
-const Chart = ({data, xValues, xDisplay}) => {
+const Chart = ({data, xValues, xDisplay, domain}) => {
   return (
 	<VictoryChart
 	        // adding the material theme provided with Victory
 	        theme={VictoryTheme.material}
-	        domainPadding={20}
+	        domainPadding={10}
+	        domain={domain}
 	        scale={{x: 'time', y: 'linear'}}
 	      >
 	        <VictoryAxis
@@ -31,7 +32,8 @@ Chart.defaultName = 'Chart';
 Chart.propTypes = {
 	data: PropTypes.array,
 	xValues: PropTypes.array,
-	xDisplay: PropTypes.array
+	xDisplay: PropTypes.array,
+	domain: PropTypes.object
 }
 
 export default Chart;
