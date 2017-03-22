@@ -1,0 +1,1 @@
+export const coreExercises = ['Barbell Squat', 'Barbell Deadlift', 'Barbell Bench Press', 'Bent Over Barbell Row', 'Standing Barbell Shoulder Press (OHP)'];

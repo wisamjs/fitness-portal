@@ -19,22 +19,27 @@ function mapDispatchToProps(dispatch) {
 
 const Analysis = ({graphs1x5}) => {
   const charts = graphs1x5.map((graph1x5, id) => {
-    let max1x5Exercise = graph1x5;
+    const max1x5Exercise = graph1x5.data;
+    const title = R.prop('exerciseName', graph1x5);
 
-    let xValues = max1x5Exercise.map((set) => set.date);
-    let xDisplay = max1x5Exercise.map((set) => set.date);
+    const xValues = max1x5Exercise.map((set) => set.date);
+    const xDisplay = max1x5Exercise.map((set) => set.date);
 
-    // const maxSet = R.reduce(R.maxBy(R.prop('weight')), {weight: 0}, graph1x5);
-    // const minSet = R.reduce(R.minBy(R.prop('weight')), maxSet, graph1x5);
+    const description = `Most weight lifted for ${title} for 1 set of 5 reps`;
 
-    return <Chart key={id}
-    data={max1x5Exercise} xValues={xValues} xDisplay={xDisplay} domain={{}}>
-    </Chart>
+    return <div key={id}>
+      <h1>{title}</h1>
+      <p>{description}</p>
+      <Chart
+        data={max1x5Exercise} xValues={xValues} xDisplay={xDisplay} domain={{}}>
+      </Chart>
+    </div>
   });
 
   return (
-    <div> {charts}
-  </div>
+    <div>
+      {charts}
+    </div>
   );
 }
 

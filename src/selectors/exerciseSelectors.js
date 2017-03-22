@@ -61,5 +61,6 @@ export const getDisplayMax1x5Exercise = (getSortedMax1x5Exercise) => {
   getSortedMax1x5Exercise,
   getworkouts,
   getDates,
+  getExercises,
   addDateToSets);
 }

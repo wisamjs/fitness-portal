@@ -1,12 +1,17 @@
 import R from 'ramda';
+import moment from 'moment';
 
+export const getState = (state) => state;
 export const getExercises = ({exercises}) => exercises;
 export const getDates = ({dates}) => dates;
 export const getworkouts = ({workouts}) => workouts;
 export const getWorkingSets = ({workingSets}) => workingSets;
 
+export const formatDate = (date) => moment(date, 'MMM DD, YYYY').format('MMM DD');
+
 export const getWorkoutFromSet = (set, workouts) => R.find(R.propEq('id', set.workoutId), workouts);
 export const getDateFromWorkout = (workout, dates) => R.find(R.propEq('id', workout.dateId),dates);
+export const getExerciseFromSet = (set, exercises) => R.find(R.propEq('id', set.exerciseId),exercises);
 
 export const getExerciseByName = (name) => {
   return (exercises) => 
@@ -34,14 +39,14 @@ export const sortSetsByWeightAndDate = (workingSets) => {
     ], workingSets);
 }
 
-export const addDateToSets = (sets, workouts, dates) => {
+export const addDateToSets = (sets, workouts, dates, exercises) => {
     return sets.map((set, i) => {
-      var workout = getWorkoutFromSet(set, workouts);
-      var day = getDateFromWorkout(workout, dates);
+      const workout = getWorkoutFromSet(set, workouts);
+      const day = getDateFromWorkout(workout, dates);
+
       return {
         ...set,
-        date: day.date,
-        orderId: i + 1
+        date: formatDate(day.date),
       };
     })
   }
