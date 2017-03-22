@@ -1,73 +1,127 @@
 import { createSelector } from 'reselect';
-import { toKg, carbsToKcals, fatToKcals } from '../utils/conversions';
-import { getLeanMass } from '../utils/bodystats';
-import { getCategory, getNumOfFreeMeals, getRefeedDetails, getFullDietBreak } from '../utils/categories';
-import { getProteinInGrams, getCarbsInGrams, getFatInGrams, getPreworkoutCarbsInGrams, getPostWorkoutCarbsInGrams, getTotalCalories } from '../utils/calories';
+import R from 'ramda';
+window.R = R;
 
-export const getWeight = (state) => state.weightLbs;
-export const getBodyfat = (state) => state.bodyfat;
-export const getGender = (state) => state.gender;
-export const getTraining = (state) => state.training;
+export const getExercises = ({exercises}) => exercises;
+export const getDates = ({dates}) => dates;
+export const getworkouts = ({workouts}) => workouts;
+export const getWorkingSets = ({workingSets}) => workingSets;
 
-export const getWeightKgSelector = createSelector(
-  getWeight, (weightLbs) => toKg(weightLbs, 'lbs')
+export const getWorkoutFromSet = (set, workouts) => R.find(R.propEq('id', set.workoutId), workouts);
+export const getDateFromWorkout = (workout, dates) => R.find(R.propEq('id', workout.dateId),dates);
+
+export const getExerciseByName = (name) => {
+  return (exercises) => 
+  R.head(R.filter(R.propEq('name',name), exercises));
+}
+
+export const getSquatExercise = createSelector(
+  getExercises, 
+  getExerciseByName('Barbell Squat')
 );
 
-export const
-  getLeanMassSelector = createSelector(
-  getWeight,
-  getBodyfat,
-  getLeanMass);
+export const getDeadliftExercise = createSelector(
+  getExercises, 
+  getExerciseByName('Barbell Deadlift')
+);
 
-export const getCategoryTypeSelector = createSelector(
-  getBodyfat,
-  getGender,
-  getCategory);
 
-export const getFreeMealsSelector = createSelector(
-  getCategoryTypeSelector,
-  getNumOfFreeMeals);
 
-export const getRefeedDetailsSelector = createSelector(
-  getCategoryTypeSelector,
-  getRefeedDetails);
+export const getWorkingSetsForExercise = (exercise, workingSets) => {
+    return R.filter(
+      R.propEq('exerciseId', exercise.id),
+      workingSets
+    )
+};
 
-export const getFullDietBreakSelector = createSelector(
-  getCategoryTypeSelector,
-  getFullDietBreak);
 
-export const getProteinInGramsSelector = createSelector(
-  getLeanMassSelector,
-  getCategoryTypeSelector,
-  getTraining,
-  getProteinInGrams);
+export const getWorkingSetsByReps = (reps) => {
+  return (workingSets) => R.filter(
+      R.propEq('reps', reps),
+      workingSets
+    );
+  }
 
-export const getCarbsInGramsSelector = createSelector(getCarbsInGrams);
-export const getFatInGramsSelector = createSelector(getFatInGrams);
-export const getPWCarbsInGramsSelector = createSelector(getPreworkoutCarbsInGrams);
+export const sortSetsByWeightAndDate = (workingSets) => {
+  return R.sortWith([
+    R.descend(R.prop('weight'))
+    ], workingSets);
+}
 
-export const getTotalCaloriesSelector = createSelector(
-  getProteinInGramsSelector,
-  getCarbsInGramsSelector,
-  getFatInGramsSelector,
-  getTotalCalories);
+export const addDateToSets = (sets, workouts, dates) => {
+    return sets.map((set, i) => {
+      var workout = getWorkoutFromSet(set, workouts);
+      var day = getDateFromWorkout(workout, dates);
+      return {
+        ...set,
+        date: day.date,
+        orderId: i + 1
+      };
+    })
+  }
 
-export const getPreworkoutCaloriesSelector = createSelector(
-  getPreworkoutCarbsInGrams,
-  carbsToKcals);
 
-export const getPostWorkoutCaloriesSelector = createSelector(
-  getPostWorkoutCarbsInGrams,
-  carbsToKcals);
+export const getSquatWorkingSets = createSelector(
+  getSquatExercise, 
+  getWorkingSets,
+  getWorkingSetsForExercise
+)
 
-export const getCarbCaloriesSelector = createSelector(
-  getCarbsInGramsSelector,
-  carbsToKcals);
+export const getDeadliftWorkingSets = createSelector(
+  getDeadliftExercise, 
+  getWorkingSets,
+  getWorkingSetsForExercise
+)
 
-export const getFatCaloriesSelector = createSelector(
-  getFatInGramsSelector,
-  fatToKcals);
+export const getSquatWorkingSetsFor5Reps = createSelector(
+  getSquatWorkingSets, 
+  getWorkingSetsByReps(5)
+);
 
-export const getProteinCaloriesSelector = createSelector(
-  getFatInGramsSelector,
-  fatToKcals);
+export const getDeadliftWorkingSetsFor5Reps = createSelector(
+  getDeadliftWorkingSets, 
+  getWorkingSetsByReps(5)
+);
+
+export const getSortedSquatSetsFor5Reps = createSelector(
+  getSquatWorkingSetsFor5Reps, 
+  sortSetsByWeightAndDate
+);
+
+export const getSortedDeadliftSetsFor5Reps = createSelector(
+  getDeadliftWorkingSetsFor5Reps, 
+  sortSetsByWeightAndDate
+);
+
+export const getMax1x5Squats = createSelector(
+  getSortedSquatSetsFor5Reps, 
+  R.uniqBy(R.prop('workoutId'))
+)
+
+export const getMax1x5Deadlifts = createSelector(
+  getSortedDeadliftSetsFor5Reps, 
+  R.uniqBy(R.prop('workoutId'))
+)
+
+export const getSortedMax1x5Squats = createSelector(
+  getMax1x5Squats, 
+  R.sort(R.descend(R.prop('workoutId')))
+)
+
+export const getSortedMax1x5Deadlifts = createSelector(
+  getMax1x5Deadlifts, 
+  R.sort(R.descend(R.prop('workoutId')))
+)
+
+
+export const getDisplayMax1x5Squats = createSelector(
+  getSortedMax1x5Squats,
+  getworkouts,
+  getDates,
+  addDateToSets);
+
+export const getDisplayMax1x5Deadlifts = createSelector(
+  getSortedMax1x5Deadlifts,
+  getworkouts,
+  getDates,
+  addDateToSets);

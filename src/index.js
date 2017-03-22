@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { Router, Route, browserHistory, IndexRedirect } from 'react-router';
 
 import App from './containers/App';
-import Weight from './containers/Weight/Weight';
+import Analysis from './containers/Analysis/Analysis';
 
 import * as reducers from './reducers/index';
 import './styles/index.css';
@@ -17,8 +17,8 @@ ReactDOM.render(
   <Provider store={ store }>
    <Router history={browserHistory}>
       <Route path="/" component={App}>
-        <IndexRedirect to='weight'/>
-        <Route path="weight" component={Weight}/>
+        <IndexRedirect to='analysis'/>
+        <Route path="analysis" component={Analysis}/>
       </Route>
     </Router>
   </Provider>,
