@@ -1,53 +1,19 @@
-import { createSelector } from 'reselect';
-import R from 'ramda';
 
 import {
-  getExercises,
-  getExerciseByName,
-  getWorkingSets,
-  getWorkingSetsForExercise,
-  getWorkingSetsByReps,
-  sortSetsByWeightAndDate,
-  getworkouts,
-  getDates,
-  addDateToSets,
-} from './utils';
+  getSpecificExercise,
+  getExercisetWorkingSets,
+  getExerciseWorkingSetsFor5Reps,
+  getSortedExerciseSetsFor5Reps,
+  getMax1x5Exercise,
+  getSortedMax1x5Exercise,
+  getDisplayMax1x5Exercise,
+} from './exerciseSelectors';
 
-export const getDeadliftExercise = createSelector(
-  getExercises, 
-  getExerciseByName('Barbell Deadlift')
-);
+const getDeadliftExercise = getSpecificExercise('Barbell Deadlift');
+const getDeadliftWorkingSets = getExercisetWorkingSets(getDeadliftExercise);
+const getDeadliftWorkingSetsFor5Reps = getExerciseWorkingSetsFor5Reps(getDeadliftWorkingSets);
+const getSortedDeadliftSetsFor5Reps = getSortedExerciseSetsFor5Reps(getDeadliftWorkingSetsFor5Reps);
+const getMax1x5Deadlifts = getMax1x5Exercise(getSortedDeadliftSetsFor5Reps);
+const getSortedMax1x5Deadlifts = getSortedMax1x5Exercise(getMax1x5Deadlifts);
 
-
-export const getDeadliftWorkingSets = createSelector(
-  getDeadliftExercise, 
-  getWorkingSets,
-  getWorkingSetsForExercise
-)
-
-export const getDeadliftWorkingSetsFor5Reps = createSelector(
-  getDeadliftWorkingSets, 
-  getWorkingSetsByReps(5)
-);
-
-export const getSortedDeadliftSetsFor5Reps = createSelector(
-  getDeadliftWorkingSetsFor5Reps, 
-  sortSetsByWeightAndDate
-);
-
-export const getMax1x5Deadlifts = createSelector(
-  getSortedDeadliftSetsFor5Reps, 
-  R.uniqBy(R.prop('workoutId'))
-)
-
-export const getSortedMax1x5Deadlifts = createSelector(
-  getMax1x5Deadlifts, 
-  R.sort(R.descend(R.prop('workoutId')))
-)
-
-
-export const getDisplayMax1x5Deadlifts = createSelector(
-  getSortedMax1x5Deadlifts,
-  getworkouts,
-  getDates,
-  addDateToSets);
+export const getDisplayMax1x5Deadlifts = getDisplayMax1x5Exercise(getSortedMax1x5Deadlifts);

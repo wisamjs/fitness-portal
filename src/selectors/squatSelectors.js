@@ -1,47 +1,20 @@
-import { createSelector } from 'reselect';
-import R from 'ramda';
 
 import {
-	getExercises,
-	getExerciseByName,
-	getWorkingSets,
-	getWorkingSetsForExercise,
-	getWorkingSetsByReps,
-	sortSetsByWeightAndDate,
-	getworkouts,
-	getDates,
-	addDateToSets,
-} from './utils';
+  getSpecificExercise,
+  getExercisetWorkingSets,
+  getExerciseWorkingSetsFor5Reps,
+  getSortedExerciseSetsFor5Reps,
+  getMax1x5Exercise,
+  getSortedMax1x5Exercise,
+  getDisplayMax1x5Exercise,
+} from './exerciseSelectors';
 
 
-export const getSquatExercise = createSelector(
-  getExercises, 
-  getExerciseByName('Barbell Squat')
-);
+const getSquatExercise = getSpecificExercise('Barbell Squat');
+const getSquatWorkingSets = getExercisetWorkingSets(getSquatExercise);
+const getSquatWorkingSetsFor5Reps = getExerciseWorkingSetsFor5Reps(getSquatWorkingSets);
+const getSortedSquatSetsFor5Reps = getSortedExerciseSetsFor5Reps(getSquatWorkingSetsFor5Reps);
+const getMax1x5Squats = getMax1x5Exercise(getSortedSquatSetsFor5Reps);
+const getSortedMax1x5Squats = getSortedMax1x5Exercise(getMax1x5Squats);
 
-export const getSquatWorkingSets = createSelector(
-  getSquatExercise, 
-  getWorkingSets,
-  getWorkingSetsForExercise
-)
-export const getSquatWorkingSetsFor5Reps = createSelector(
-  getSquatWorkingSets, 
-  getWorkingSetsByReps(5)
-);
-export const getSortedSquatSetsFor5Reps = createSelector(
-  getSquatWorkingSetsFor5Reps, 
-  sortSetsByWeightAndDate
-);
-export const getMax1x5Squats = createSelector(
-  getSortedSquatSetsFor5Reps, 
-  R.uniqBy(R.prop('workoutId'))
-)
-export const getSortedMax1x5Squats = createSelector(
-  getMax1x5Squats, 
-  R.sort(R.descend(R.prop('workoutId')))
-)
-export const getDisplayMax1x5Squats = createSelector(
-  getSortedMax1x5Squats,
-  getworkouts,
-  getDates,
-  addDateToSets);
+export const getDisplayMax1x5Squats = getDisplayMax1x5Exercise(getSortedMax1x5Squats);
