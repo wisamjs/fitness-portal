@@ -1,12 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Chart from '../../components/Chart';
-import { getDisplayMax1x5Squats, getDisplayMax1x5Deadlifts } from '../../selectors/selectors';
+import { graphs1x5 } from '../../selectors/selectors';
 function mapStateToProps({workouts}) {
 
   return {
-    max1x5Squats: getDisplayMax1x5Squats(workouts),
-    max1x5Deadlifts: getDisplayMax1x5Deadlifts(workouts)
+    graphs1x5: graphs1x5(workouts)
   };
 }
 
@@ -16,8 +15,9 @@ function mapDispatchToProps(dispatch) {
 
 }
 
-const Analysis = ({max1x5Squats, max1x5Deadlifts}) => {
-  console.log(max1x5Squats, max1x5Deadlifts);
+const Analysis = ({graphs1x5}) => {
+  const max1x5Squats = graphs1x5.squat1x5;
+  const max1x5Deadlifts = graphs1x5.deadlift1x5;
 
   const xValuesSquat = max1x5Squats.map((set) => set.date);
   const xDisplaySquat = max1x5Squats.map((set) => set.date);
