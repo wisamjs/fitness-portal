@@ -1,9 +1,20 @@
 import { createSelector } from 'reselect';
 
-// import { getDisplayMax1x5Squats } from './squatSelectors';
-// import { getDisplayMax1x5Deadlifts } from './deadliftSelectors';
-import { getDisplayMax1x5CoreExercises } from './max1x5CoreExerciseSelectors';
+import { statsForMaxSetOfFive } from './maxSetOfFive';
+import { getDisplayMaxWeightCoreExercises } from './maxSetOfAny';
 
 export const graphs1x5 = createSelector(
-  getDisplayMax1x5CoreExercises,
+  statsForMaxSetOfFive,
   (coreExercises1x5) => coreExercises1x5);
+
+export const maxWeightPerWorkout = createSelector(
+  getDisplayMaxWeightCoreExercises,
+  (coreExercises) => coreExercises);
+
+export const statistics = createSelector(
+  statsForMaxSetOfFive,
+  maxWeightPerWorkout,
+  (maxSetOfFive, maxSetOfAny) => ({
+  	maxSetOfFive,
+  	maxSetOfAny
+  }));
