@@ -2,12 +2,12 @@ import { createSelector } from 'reselect';
 import { coreExercises } from '../utils/constants';
 import {
   getSpecificExercise,
-  getExercisetWorkingSets,
-  getExerciseWorkingSetsFor5Reps,
-  getSortedExerciseSetsFor5Reps,
-  getMax1x5Exercise,
-  getSortedMax1x5Exercise,
-  getDisplayMax1x5Exercise,
+  getSetsFor,
+  getSetsWithFiveReps,
+  getSortedSets,
+  getMaxSetPerWorkout,
+  getSortedMaxSetPerWorkout,
+  getSetsWithDates
 } from './exerciseSelectors';
 
 import { getState } from './utils';
@@ -17,16 +17,16 @@ export const statsForMaxSetOfFive = createSelector(
 	(state) => {
 		return coreExercises.map((exerciseName) => {
 			const coreExercise = getSpecificExercise(exerciseName);
-			const workingSets = getExercisetWorkingSets(coreExercise);
-			const setsWithFiveReps = getExerciseWorkingSetsFor5Reps(workingSets);
-			const maxSetsWithFiveReps = getSortedExerciseSetsFor5Reps(setsWithFiveReps);
-			const maxSetOfFiveReps = getMax1x5Exercise(maxSetsWithFiveReps);
-			const maxSetOfFiveRepsWithDates = getSortedMax1x5Exercise(maxSetOfFiveReps);
+			const workingSets = getSetsFor(coreExercise);
+			const setsWithFiveReps = getSetsWithFiveReps(workingSets);
+			const maxSetsWithFiveReps = getSortedSets(setsWithFiveReps);
+			const maxSetOfFiveReps = getMaxSetPerWorkout(maxSetsWithFiveReps);
+			const maxSetOfFiveRepsWithDates = getSortedMaxSetPerWorkout(maxSetOfFiveReps);
 
 			return {
 				exerciseName: exerciseName,
 				description: 'Most weight lifted in a set of 5 reps',
-				data: getDisplayMax1x5Exercise(maxSetOfFiveRepsWithDates)(state)
+				data: getSetsWithDates(maxSetOfFiveRepsWithDates)(state)
 			}
 		});
 	});

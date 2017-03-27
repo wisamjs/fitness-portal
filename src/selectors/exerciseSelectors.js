@@ -20,45 +20,45 @@ import {
   );
 }
 
-export const getExercisetWorkingSets = (getSpecificExercise) => {
+export const getSetsFor = (exercise) => {
   return createSelector(
-    getSpecificExercise, 
+    exercise, 
     getWorkingSets,
     getWorkingSetsForExercise
   )
 }
 
-export const getExerciseWorkingSetsFor5Reps = (getWorkingSets) => {
+export const getSetsWithFiveReps = (sets) => {
     return createSelector(
-    getWorkingSets, 
+    sets, 
     getWorkingSetsByReps(5)
   );
 }
 
-export const getSortedExerciseSetsFor5Reps = (getExerciseWorkingSetsFor5Reps) => {
+export const getSortedSets = (sets) => {
     return createSelector(
-    getExerciseWorkingSetsFor5Reps, 
+    sets, 
     sortSetsByWeightAndDate
   );
 }
 
-export const getMax1x5Exercise = (getSortedExerciseSetsFor5Reps) => {
+export const getMaxSetPerWorkout = (sets) => {
     return createSelector(
-    getSortedExerciseSetsFor5Reps, 
+    sets, 
     R.uniqBy(R.prop('workoutId'))
   )
 }
 
-export const getSortedMax1x5Exercise = (getMax1x5Exercise) => {
+export const getSortedMaxSetPerWorkout = (sets) => {
   return createSelector(
-    getMax1x5Exercise, 
+    sets, 
     R.sort(R.descend(R.prop('workoutId')))
   )
 }
 
-export const getDisplayMax1x5Exercise = (getSortedMax1x5Exercise) => {
+export const getSetsWithDates = (sets) => {
   return createSelector(
-  getSortedMax1x5Exercise,
+  sets,
   getworkouts,
   getDates,
   getExercises,
