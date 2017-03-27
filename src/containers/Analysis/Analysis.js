@@ -18,49 +18,39 @@ function mapDispatchToProps(dispatch) {
 }
 
 const Analysis = ({statistics}) => {
-  const graphs1x5 = statistics.maxSetOfFive;
-  const graphs1xAny = statistics.maxSetOfAny;
+  const maxSetOfFive = statistics.maxSetOfFive;
+  const maxSetOfAny = statistics.maxSetOfAny;
+  const graphTypes = [maxSetOfFive, maxSetOfAny];
 
-  const setOfFivecharts = graphs1x5.map((graph1x5, id) => {
-    const max1x5Exercise = graph1x5.data;
-    const title = R.prop('exerciseName', graph1x5);
+  const graphs = graphTypes.map((graphType, id) => {
+    const title = graphType.name;
+    
+    const graphData = graphType.data.map((exercise, id) => {
+      const data = exercise.data;
+      const title = R.prop('exerciseName', exercise);
+      const xValues = exercise.data.map((set) => set.date);
+      const xDisplay = exercise.data.map((set) => set.date);
 
-    const xValues = max1x5Exercise.map((set) => set.date);
-    const xDisplay = max1x5Exercise.map((set) => set.date);
-
-    const description = `Most weight lifted for ${title} for 1 set of 5 reps`;
-
-    return <div key={id}>
-      <h1>{title}</h1>
-      <p>{description}</p>
-      <Chart
-        data={max1x5Exercise} xValues={xValues} xDisplay={xDisplay} domain={{}}>
-      </Chart>
-    </div>
-  });
-
-    const graphs1xAnyCharts = graphs1xAny.map((graph1xAny, id) => {
-    const max1xAny = graph1xAny.data;
-    const title = R.prop('exerciseName', graph1xAny);
-
-    const xValues = max1xAny.map((set) => set.date);
-    const xDisplay = max1xAny.map((set) => set.date);
-
-    const description = `Most weight lifted for ${title}`;
+      return <div key={id}>
+        <h3>{title}</h3>
+        <Chart
+          data={data} xValues={xValues} xDisplay={xDisplay} domain={{}}>
+        </Chart>
+      </div>
+    });
 
     return <div key={id}>
-      <h1>{title}</h1>
-      <p>{description}</p>
-      <Chart
-        data={max1xAny} xValues={xValues} xDisplay={xDisplay} domain={{}}>
-      </Chart>
+      <h2>{title}</h2>
+      <div>
+        {graphData}
+      </div>
     </div>
+
   });
 
   return (
     <div>
-      {setOfFivecharts}
-      {graphs1xAnyCharts}
+    {graphs}
     </div>
   );
 }

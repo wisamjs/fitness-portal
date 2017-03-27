@@ -14,7 +14,15 @@ export const maxWeightPerWorkout = createSelector(
 export const statistics = createSelector(
   statsForMaxSetOfFive,
   maxWeightPerWorkout,
-  (maxSetOfFive, maxSetOfAny) => ({
-  	maxSetOfFive,
-  	maxSetOfAny
-  }));
+  (maxSetOfFive, maxSetOfAny) => {
+  	return {
+  		maxSetOfFive: {
+  			name: 'Set of Five',
+  			data: maxSetOfFive
+  		},
+  		maxSetOfAny: {
+  			name: 'Set of Any',
+  			data: maxSetOfAny
+  		}
+  	}
+  });
