@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import SimpleBarChart from '../../components/SimpleBarChart';
 import { statistics } from '../../selectors/selectors';
 import R from 'ramda';
+window.R = R;
 
 function mapStateToProps({workouts}) {
 
@@ -19,7 +20,9 @@ function mapDispatchToProps(dispatch) {
 const Analysis = ({statistics}) => {
   const maxSetOfFive = statistics.maxSetOfFive;
   const maxSetOfAny = statistics.maxSetOfAny;
-  const graphTypes = [maxSetOfFive, maxSetOfAny];
+  const maxFiveSetsofFive = statistics.maxFiveSetsofFive;
+
+  const graphTypes = [maxSetOfFive, maxSetOfAny, maxFiveSetsofFive];
 
   const graphs = graphTypes.map((graphType, id) => {
     const title = graphType.name;

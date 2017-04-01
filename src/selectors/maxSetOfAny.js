@@ -10,7 +10,7 @@ import {
 } from './exerciseSelectors';
 import { getState } from './utils';
 
-export const getDisplayMaxWeightCoreExercises = createSelector(
+export const statsForMaxSetOfAny = createSelector(
 	getState,
 	(state) => {
 		return coreExercises.map((exerciseName) => {

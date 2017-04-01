@@ -18,6 +18,8 @@ export const getExerciseByName = (name) => {
   R.head(R.filter(R.propEq('name',name), exercises));
 }
 
+export const getSetsByWorkout = (sets) => R.values(R.groupBy(R.prop('workoutId'))(sets));
+
 export const getWorkingSetsForExercise = (exercise, workingSets) => {
     return R.filter(
       R.propEq('exerciseId', exercise.id),
@@ -25,6 +27,8 @@ export const getWorkingSetsForExercise = (exercise, workingSets) => {
     )
 };
 
+
+export const countSetsByWeight = (workout) => R.countBy(R.prop('weight'), workout);
 
 export const getWorkingSetsByReps = (reps) => {
   return (workingSets) => R.filter(

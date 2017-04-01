@@ -7,9 +7,11 @@ import {
   getWorkingSets,
   getWorkingSetsForExercise,
   getWorkingSetsByReps,
+  getSetsByWorkout,
   sortSetsByWeightAndDate,
   getworkouts,
   getDates,
+  countSetsByWeight,
   addDateToSets,
 } from './utils';
 
@@ -41,6 +43,32 @@ export const getSortedSets = (sets) => {
     sortSetsByWeightAndDate
   );
 }
+
+export const groupSetsByWorkout = (sets) => {
+  return createSelector(
+    sets,
+    getSetsByWorkout)
+}
+
+export const getFiveSetsofFive = (workouts) => {
+  return createSelector(
+    workouts,
+    R.reduce(function(fiveByFive, workout) {
+      var byWeight = countSetsByWeight(workout);
+      var most = R.filter((reps)=> { return reps >= 5},byWeight);
+      var weight = R.head(R.keys(most));
+
+      if (weight) {
+        var set = R.head(R.filter(function(set) {
+          return R.propEq('weight', set.weight)
+        }, workout));
+        return fiveByFive.concat(set);
+      }
+
+      return fiveByFive;
+    }, [])
+)};
+
 
 export const getMaxSetPerWorkout = (sets) => {
     return createSelector(
