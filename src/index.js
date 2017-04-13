@@ -6,6 +6,7 @@ import { Router, Route, browserHistory, IndexRedirect } from 'react-router';
 
 import App from './containers/App';
 import Analysis from './containers/Analysis/Analysis';
+import Home from './containers/Home/Home';
 
 import * as reducers from './reducers/index';
 import './styles/index.css';
@@ -17,7 +18,8 @@ ReactDOM.render(
   <Provider store={ store }>
    <Router history={browserHistory}>
       <Route path="/" component={App}>
-        <IndexRedirect to='analysis'/>
+        <IndexRedirect to='home'/>
+        <Route path="home" component={Home}/>
         <Route path="analysis" component={Analysis}/>
       </Route>
     </Router>

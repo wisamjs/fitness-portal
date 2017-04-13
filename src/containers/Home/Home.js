@@ -20,7 +20,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const Analysis = ({statistics}) => {
+const Home = ({statistics}) => {
   const maxSetOfFive = statistics.maxSetOfFive;
   // const maxSetOfAny = statistics.maxSetOfAny;
   // const maxFiveSetsofFive = statistics.maxFiveSetsofFive;
@@ -59,4 +59,4 @@ const Analysis = ({statistics}) => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps)(Analysis);
+  mapDispatchToProps)(Home);

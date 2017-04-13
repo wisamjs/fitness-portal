@@ -1,0 +1,16 @@
+.open-sans {
+	font-family: 'Open Sans';
+}
+
+.background {
+	/*background: linear-gradient(to bottom right, #3A96A1, #40629B, #5B325A);*/
+	  background: linear-gradient(135deg, rgba(38,125,132,1) 0%, rgba(48,68,154,1) 37%, rgba(48,68,154,1) 64%, rgba(98,52,93,1) 100%);
+}
+
+.bg-blue{
+	background: #293955;
+}
+
+.blue {
+	color: #40629B;
+}

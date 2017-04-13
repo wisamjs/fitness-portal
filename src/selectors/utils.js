@@ -25,7 +25,25 @@ export const getWorkingSetsForExercise = (exercise, workingSets) => {
       R.propEq('exerciseId', exercise.id),
       workingSets
     )
-};
+};  
+
+export const getFiveSetsofFiveReps = (workouts) => getMultipleSetsofFiveReps(5)(workouts);
+
+export const getMultipleSetsofFiveReps = (repLimit) => {
+    return R.reduce(function(sets, workout) {
+      var mostReps = R.filter(R.lte(repLimit) , countSetsByWeight(workout));
+      var hasMultipleSetsOfFive = R.head(R.keys(mostReps));
+
+      if (hasMultipleSetsOfFive) {
+        var set = R.head(R.filter(function(set) {
+          return R.propEq('weight', set.weight)
+        }, workout));
+        return sets.concat(set);
+      }
+
+      return sets;
+    }, [])
+}
 
 
 export const countSetsByWeight = (workout) => R.countBy(R.prop('weight'), workout);
