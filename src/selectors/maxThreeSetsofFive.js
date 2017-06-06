@@ -1,5 +1,5 @@
 // import { createSelector } from 'reselect';
-// import { coreExercises } from '../utils/constants';
+// import { CORE_EXERCISES } from '../utils/constants';
 // import {
 //   getSpecificExercise,
 //   getSetsFor,
@@ -16,7 +16,7 @@
 // export const statsForMaxThreeSetOfFive = createSelector(
 // 	getState,
 // 	(state) => {
-// 		return coreExercises.map((exerciseName) => {
+// 		return CORE_EXERCISES.map((exerciseName) => {
 // 			const coreExercise = getSpecificExercise(exerciseName);
 // 			const workingSets = getSetsFor(coreExercise);
 // 			const setsWithFiveReps = getSetsWithFiveReps(workingSets);

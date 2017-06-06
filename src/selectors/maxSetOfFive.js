@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { coreExercises } from '../utils/constants';
+import { SET_OF_FIVE, CORE_EXERCISES } from '../utils/constants';
 import {
   getSpecificExercise,
   getSetsFor,
@@ -15,7 +15,7 @@ import { getState } from './utils';
 export const statsForMaxSetOfFive = createSelector(
 	getState,
 	(state) => {
-		return coreExercises.map((exerciseName) => {
+		return CORE_EXERCISES.map((exerciseName) => {
 			const coreExercise = getSpecificExercise(exerciseName);
 			const workingSets = getSetsFor(coreExercise);
 			const setsWithFiveReps = getSetsWithFiveReps(workingSets);
@@ -26,6 +26,7 @@ export const statsForMaxSetOfFive = createSelector(
 			return {
 				exerciseName: exerciseName,
 				description: 'Most weight lifted in a set of 5 reps',
+				format: SET_OF_FIVE,
 				data: getSetsWithDates(maxSetOfFiveRepsWithDates)(state)
 			}
 		});
