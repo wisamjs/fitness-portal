@@ -8,6 +8,7 @@ import {
   getWorkingSetsForExercise,
   getWorkingSetsByReps,
   getSetsByWorkout,
+  getThreeSetsofFiveReps,
   getFiveSetsofFiveReps,
   sortSetsByWeightAndDate,
   getworkouts,
@@ -55,6 +56,13 @@ export const getFiveSetsofFive = (workouts) => {
   return createSelector(
     workouts,
     getFiveSetsofFiveReps
+  );
+}
+
+export const getThreeSetsofFive = (workouts) => {
+  return createSelector(
+    workouts,
+    getThreeSetsofFiveReps
   );
 }
 

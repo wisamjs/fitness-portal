@@ -3,12 +3,14 @@ import { createSelector } from 'reselect';
 import { statsForMaxSetOfFive } from './maxSetOfFive';
 import { statsForMaxSetOfAny } from './maxSetOfAny';
 import { statsForMaxFiveSetOfFive } from './maxFiveSetsOfFive';
+import { statsForMaxThreeSetsofFive } from './maxThreeSetsofFive';
 
 export const statistics = createSelector(
   statsForMaxSetOfFive,
   statsForMaxSetOfAny,
   statsForMaxFiveSetOfFive,
-  (maxSetOfFive, maxSetOfAny, maxFiveSetsofFive) => {
+  statsForMaxThreeSetsofFive,
+  (maxSetOfFive, maxSetOfAny, maxFiveSetsofFive, maxThreeSetsofFive) => {
   	return {
   		maxSetOfFive: {
   			name: 'Set of Five',
@@ -21,6 +23,10 @@ export const statistics = createSelector(
 
       maxFiveSetsofFive: {
         name: 'Five Sets of Five',
+        data: maxFiveSetsofFive
+      },
+      maxThreeSetsofFive: {
+        name: 'Three Sets of Five',
         data: maxFiveSetsofFive
       }
   	}

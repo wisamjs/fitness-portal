@@ -28,6 +28,8 @@ export const getWorkingSetsForExercise = (exercise, workingSets) => {
 };  
 
 export const getFiveSetsofFiveReps = (workouts) => getMultipleSetsofFiveReps(5)(workouts);
+export const getThreeSetsofFiveReps = (workouts) => getMultipleSetsofFiveReps(3)(workouts);
+
 
 export const getMultipleSetsofFiveReps = (repLimit) => {
     return R.reduce(function(sets, workout) {
