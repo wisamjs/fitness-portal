@@ -14,13 +14,13 @@ const rootReducer = combineReducers(reducers);
 const store = createStore(rootReducer, {});
 
 ReactDOM.render(
-  <Provider store={ store }>
-   <Router history={browserHistory}>
-      <Route path="/" component={App}>
-        <IndexRedirect to='analysis'/>
-        <Route path="analysis" component={Analysis}/>
-      </Route>
-    </Router>
-  </Provider>,
-  document.getElementById('root')
+	  <Provider store={ store }>
+	   <Router history={browserHistory}>
+	      <Route path="/" component={App}>
+	        <IndexRedirect to='analysis'/>
+	        <Route path="analysis" component={Analysis}/>
+	      </Route>
+	    </Router>
+	  </Provider>,
+	  document.getElementById('root')
 );

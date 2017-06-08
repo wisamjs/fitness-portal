@@ -19,6 +19,8 @@ export const getExerciseByName = (name) => {
 }
 
 export const getSetsByWorkout = (sets) => R.values(R.groupBy(R.prop('workoutId'))(sets));
+export const countSetsByWeight = (workout) => R.countBy(R.prop('weight'), workout);
+
 
 export const getWorkingSetsForExercise = (exercise, workingSets) => {
     return R.filter(
@@ -27,7 +29,6 @@ export const getWorkingSetsForExercise = (exercise, workingSets) => {
     )
 };  
 
-export const getFiveSetsofFiveReps = (workouts) => getMultipleSetsofFiveReps(5)(workouts);
 
 export const getMultipleSetsofFiveReps = (repLimit) => {
     return R.reduce(function(sets, workout) {
@@ -45,8 +46,9 @@ export const getMultipleSetsofFiveReps = (repLimit) => {
     }, [])
 }
 
+export const getFiveSetsofFiveReps = (workouts) => getMultipleSetsofFiveReps(5)(workouts);
 
-export const countSetsByWeight = (workout) => R.countBy(R.prop('weight'), workout);
+
 
 export const getWorkingSetsByReps = (reps) => {
   return (workingSets) => R.filter(

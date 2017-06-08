@@ -6,10 +6,9 @@ import { updateWorkoutFormat, updateExercise } from '../../actions/actions';
 import { SET_FORMATS, CORE_EXERCISES } from '../../utils/constants';
 
 import Square from '../../components/Square';
-import SimpleBarChart from '../../components/SimpleBarChart';
-import SimpleLineChart from '../../components/SimpleLineChart';
+import RaisedButton from 'material-ui/RaisedButton';
 
-import { statistics, statisticsByLift } from '../../selectors/selectors';
+import { statisticsByLift } from '../../selectors/selectors';
 
 window.R = R;
 
@@ -42,35 +41,44 @@ const Analysis = ({statisticsByLift, format, exercise, selectFormat, selectExerc
   };
 
   const formatButtons = SET_FORMATS.map((format, id) =>
-    <button key = {id} onClick={ () => selectFormat(format)}>{format}</button>
+    <RaisedButton
+    className="p1" 
+    label={format} 
+    primary={true} 
+    key={id} 
+    onClick={
+      () => selectFormat(format)
+    }/>
   );
 
   const exerciseButtons = CORE_EXERCISES.map((exercise, id) =>
-    <button key = {id} onClick={ () => selectExercise(exercise)}>{exercise}</button>
+    <RaisedButton 
+    className="p1"
+    label={exercise} 
+    secondary={true} 
+    key={id} 
+    onClick={
+     () => selectExercise(exercise)
+   }/>
   );
 
   
   return (
-    <div className="flex">
-      <div className="flex flex-column half-width">
-        <div className="temporary">Box 1</div>
-        <div className="temporary">Box 2</div>
+    <div>
+      <h3 className="white">Format</h3>
+      <div className="p2">
+        {formatButtons}
       </div>
-      <div className="flex flex-column half-width">
-        <div className="temporary">Box 3</div>
-        <div>
-          {formatButtons}
-          {exerciseButtons}
-          <Square 
-            chartType="SimpleBarChart" 
-            title={exercise} 
-            graphData={graphData}>
-          </Square>
-        </div>
+      <h3 className="white">Exercises</h3>
+      <div>
+        {exerciseButtons}
       </div>
+      <Square 
+        chartType="SimpleBarChart" 
+        title={exercise} 
+        graphData={graphData}>
+      </Square>
     </div>
-/*    
-    */
   );
 
 }

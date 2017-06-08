@@ -12,7 +12,6 @@ import {
   sortSetsByWeightAndDate,
   getworkouts,
   getDates,
-  countSetsByWeight,
   addDateToSets,
 } from './utils';
 

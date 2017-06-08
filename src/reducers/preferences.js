@@ -8,7 +8,6 @@ const INITIAL_STATE = {
 }
 
 export default function preferences(state = INITIAL_STATE, action= {}) {
-	console.log(action);
 	switch(action.type) {
 		case 'UPDATE_WORKOUT_FORMAT':
 			return { ...state, graph: { ...state.graph, format: action.payload}};
