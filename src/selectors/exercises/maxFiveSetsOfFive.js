@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { FIVE_SETS_OF_FIVE , CORE_EXERCISES } from '../utils/constants';
+import { FIVE_SETS_OF_FIVE , CORE_EXERCISES } from '../../utils/constants';
 import {
   getSpecificExercise,
   getSetsFor,
@@ -9,7 +9,7 @@ import {
   getSetsWithDates,
   getFiveSetsofFive,
   groupSetsByWorkout
-} from './exerciseSelectors';
+} from './helperSelectors';
 
 import { getState } from './utils';
 

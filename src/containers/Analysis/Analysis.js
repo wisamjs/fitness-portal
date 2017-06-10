@@ -5,17 +5,18 @@ import R from 'ramda';
 import { updateWorkoutFormat, updateExercise } from '../../actions/actions';
 import { SET_FORMATS, CORE_EXERCISES } from '../../utils/constants';
 
-import Square from '../../components/Square';
-import RaisedButton from 'material-ui/RaisedButton';
+import Graph from '../../components/Graph';
+import GraphRadioGroup from '../../components/GraphRadioGroup';
 
-import { statisticsByLift } from '../../selectors/selectors';
+import { exerciseSelectors } from '../../selectors/selectors';
 
 window.R = R;
 
 function mapStateToProps({workouts, preferences}) {
+  const workoutData = exerciseSelectors(workouts);
 
   return {
-    statisticsByLift: statisticsByLift(workouts),
+    statisticsByLift: workoutData.statisticsByLift,
     format: preferences.graph.format,
     exercise: preferences.graph.exercise
   };
@@ -23,14 +24,13 @@ function mapStateToProps({workouts, preferences}) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    selectFormat: (value) => dispatch(updateWorkoutFormat(value)),
-    selectExercise: (value) => dispatch(updateExercise(value))
+    selectFormat: (e) => dispatch(updateWorkoutFormat(e.target.value)),
+    selectExercise: (e) => dispatch(updateExercise(e.target.value))
 
   };
 }
 
 const Analysis = ({statisticsByLift, format, exercise, selectFormat, selectExercise}) => {
-
   const isFormat = R.propEq('format', format);
   const exerciseName = R.head(statisticsByLift[exercise].filter(isFormat));
     
@@ -40,44 +40,30 @@ const Analysis = ({statisticsByLift, format, exercise, selectFormat, selectExerc
     data: exerciseName.data
   };
 
-  const formatButtons = SET_FORMATS.map((format, id) =>
-    <RaisedButton
-    className="p1" 
-    label={format} 
-    primary={true} 
-    key={id} 
-    onClick={
-      () => selectFormat(format)
-    }/>
-  );
-
-  const exerciseButtons = CORE_EXERCISES.map((exercise, id) =>
-    <RaisedButton 
-    className="p1"
-    label={exercise} 
-    secondary={true} 
-    key={id} 
-    onClick={
-     () => selectExercise(exercise)
-   }/>
-  );
-
   
   return (
     <div>
-      <h3 className="white">Format</h3>
-      <div className="p2">
-        {formatButtons}
+      <div className="flex space-between">
+        <GraphRadioGroup
+        name="Format"
+        className=" p1 half-width"
+        defaultSelected={format}
+        onChange={selectFormat}
+        values={SET_FORMATS}/>
+
+        <GraphRadioGroup
+        name="Exercises"
+        className="p1 half-width"
+        defaultSelected={exercise}
+        onChange={selectExercise}
+        values={CORE_EXERCISES}/>
       </div>
-      <h3 className="white">Exercises</h3>
-      <div>
-        {exerciseButtons}
-      </div>
-      <Square 
+
+      <Graph 
         chartType="SimpleBarChart" 
         title={exercise} 
-        graphData={graphData}>
-      </Square>
+        data={graphData}>
+      </Graph>
     </div>
   );
 

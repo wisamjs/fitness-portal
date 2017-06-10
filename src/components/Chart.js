@@ -9,7 +9,7 @@ import {
   Tooltip, 
 } from 'recharts';
 
-const SimpleLineChart = ({data, xKey, yKey, id}) => {
+const Chart = ({data, xKey, yKey, id}) => {
 
   return (
      <ResponsiveContainer>
@@ -25,12 +25,12 @@ const SimpleLineChart = ({data, xKey, yKey, id}) => {
   );
 }
 
-SimpleLineChart.defaultName = 'SimpleLineChart';
-SimpleLineChart.propTypes = {
+Chart.defaultName = 'Chart';
+Chart.propTypes = {
   data: PropTypes.array,
   xKey: PropTypes.string,
   yKey: PropTypes.string
 }
 
-export default SimpleLineChart;
+export default Chart;
 

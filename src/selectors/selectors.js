@@ -1,40 +1,18 @@
+import { statistics, statisticsByLift } from './exercises/exerciseSelectors';
 import { createSelector } from 'reselect';
-import { statsForMaxSetOfFive } from './maxSetOfFive';
-import { statsForMaxSetOfAny } from './maxSetOfAny';
-import { statsForMaxFiveSetOfFive } from './maxFiveSetsOfFive';
-import R from 'ramda';
 
-export const statistics = createSelector(
-  statsForMaxSetOfFive,
-  statsForMaxSetOfAny,
-  statsForMaxFiveSetOfFive,
-  (maxSetOfFive, maxSetOfAny, maxFiveSetsofFive) => {
-  	return {
-  		maxSetOfFive: {
-  			name: 'Set of Five',
-  			data: maxSetOfFive
-  		},
-  		maxSetOfAny: {
-  			name: 'Set of Any',
-  			data: maxSetOfAny
-  		},
 
-      maxFiveSetsofFive: {
-        name: 'Five Sets of Five',
-        data: maxFiveSetsofFive
-      }
-  	}
+export const exerciseSelectors = createSelector(
+  statistics, 
+  statisticsByLift,
+  (statistics, statisticsByLift) => {
+    return {
+      statistics,
+      statisticsByLift
+    }
+
   });
 
-export const statisticsByLift = createSelector(
-  statsForMaxSetOfFive,
-  statsForMaxSetOfAny,
-  statsForMaxFiveSetOfFive,
-  (maxSetOfFive, maxSetOfAny, maxFiveSetsofFive) =>
-    R.groupBy(R.prop('exerciseName'), maxSetOfFive
-    .concat(maxSetOfAny)
-    .concat(maxFiveSetsofFive)
-  ));
 
 
 

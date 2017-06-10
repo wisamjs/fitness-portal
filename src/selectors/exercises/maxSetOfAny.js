@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { SET_OF_ANY, CORE_EXERCISES } from '../utils/constants';
+import { SET_OF_ANY, CORE_EXERCISES } from '../../utils/constants';
 import {
   getSpecificExercise,
   getSetsFor,
@@ -7,7 +7,7 @@ import {
   getMaxSetPerWorkout,
   getSortedMaxSetPerWorkout,
   getSetsWithDates
-} from './exerciseSelectors';
+} from './helperSelectors';
 import { getState } from './utils';
 
 export const statsForMaxSetOfAny = createSelector(

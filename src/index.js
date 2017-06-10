@@ -6,6 +6,8 @@ import { Router, Route, browserHistory, IndexRedirect } from 'react-router';
 
 import App from './containers/App';
 import Analysis from './containers/Analysis/Analysis';
+import Standards from './containers/Standards/Standards';
+
 
 import * as reducers from './reducers/index';
 import './styles/index.css';
@@ -19,6 +21,8 @@ ReactDOM.render(
 	      <Route path="/" component={App}>
 	        <IndexRedirect to='analysis'/>
 	        <Route path="analysis" component={Analysis}/>
+	        <Route path="standards" component={Standards}/>
+
 	      </Route>
 	    </Router>
 	  </Provider>,

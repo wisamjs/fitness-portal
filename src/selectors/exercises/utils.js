@@ -48,8 +48,6 @@ export const getMultipleSetsofFiveReps = (repLimit) => {
 
 export const getFiveSetsofFiveReps = (workouts) => getMultipleSetsofFiveReps(5)(workouts);
 
-
-
 export const getWorkingSetsByReps = (reps) => {
   return (workingSets) => R.filter(
       R.propEq('reps', reps),
