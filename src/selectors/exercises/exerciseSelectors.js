@@ -1,7 +1,11 @@
 import { createSelector } from 'reselect';
-import { statsForMaxSetOfFive } from './maxSetOfFive';
-import { statsForMaxSetOfAny } from './maxSetOfAny';
-import { statsForMaxFiveSetOfFive } from './maxFiveSetsOfFive';
+
+import { 
+  statsForMaxSetOfFive, 
+  statsForMaxSetOfAny,
+  statsForMaxFiveSetOfFive
+} from './selectors';
+
 import R from 'ramda';
 
 export const statistics = createSelector(
@@ -9,7 +13,6 @@ export const statistics = createSelector(
   statsForMaxSetOfAny,
   statsForMaxFiveSetOfFive,
   (maxSetOfFive, maxSetOfAny, maxFiveSetsofFive) => {
-    console.log('ALIVE');
   	return {
   		maxSetOfFive: {
   			name: 'Set of Five',

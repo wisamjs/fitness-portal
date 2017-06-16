@@ -1,7 +1,3 @@
-
-
-
-
 export const SET_OF_FIVE = '1x5';
 export const SET_OF_ANY = '1x?';
 export const FIVE_SETS_OF_FIVE = '5x5';

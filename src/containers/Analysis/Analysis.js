@@ -14,6 +14,7 @@ window.R = R;
 
 function mapStateToProps({workouts, preferences}) {
   const workoutData = exerciseSelectors(workouts);
+  window.workoutData = workoutData;
 
   return {
     statisticsByLift: workoutData.statisticsByLift,

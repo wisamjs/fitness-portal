@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import R from 'ramda';
 
+import { strengthSelectors } from '../../selectors/selectors';
+
 import {
   Table,
   TableBody,
@@ -14,9 +16,13 @@ import {
 window.R = R;
 
 function mapStateToProps({workouts, preferences, standards}) {
+  const selectors = strengthSelectors(standards);
+  window.workouts = workouts;
 
   return {
-    standards: standards
+    standards: standards,
+    levelLabels: selectors.levelLabels,
+    rowData: selectors.standardsRowData
   };
 }
 
@@ -25,36 +31,36 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const Standards = ({standards}) => {
+const Standards = ({standards, levelLabels, rowData}) => {
   const mapIndex = R.addIndex(R.map);
-  const standardLevels = R.map(R.prop('name'), standards.levels);
-  // const standardExercises = R.map(R.prop('name'), standards.exercises);
-  const groupByExerciseId = R.groupBy(R.prop('exerciseId'));
-  const listofRows = R.values(groupByExerciseId(standards.standards));
 
-  const columnHeaders = standardLevels.map((label, id) =>
+  const standardExercises = R.map(R.prop('name'), standards.exercises);
+
+  const columnHeaders = levelLabels.map((label, id) =>
     <TableHeaderColumn key={id}>{label}</TableHeaderColumn>
     );
 
-  const body = listofRows.map((row, id) => {
+  const body = rowData.map((row, id) => {
     const columns = mapIndex((column, columnKey) => <TableRowColumn 
       key={id + '' + columnKey}>
         {column.standard}
     </TableRowColumn> ,row);
 
     return <TableRow key={id} selected={false}>
+      <TableRowColumn>{standardExercises[id]}</TableRowColumn>
       {columns}
     </TableRow>
 
   })
 
   return (
-    <Table>
+      <Table>
 
       <TableHeader
       displaySelectAll={false}
       adjustForCheckbox={false}>
         <TableRow>
+        <TableHeaderColumn>Exercises</TableHeaderColumn>
           {columnHeaders}
         </TableRow>
       </TableHeader>
