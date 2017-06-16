@@ -91,11 +91,11 @@ export const statsForMaxSetOfAny = createSelector(
 	getState,
 	(state) => {
 		return CORE_EXERCISES.map((exerciseName) => {
-			let getCoreExercise = getSpecificExercise(exerciseName);
-			let getCoreExerciseWorkingSets = getSetsFor(getCoreExercise);
-			let getSortedCORE_EXERCISESets = getSortedSets(getCoreExerciseWorkingSets);
-			let getMaxWeightCoreExercise = getMaxSetPerWorkout(getSortedCORE_EXERCISESets);
-			let getDisplayMaxWeightCoreExercise = getSortedMaxSetPerWorkout(getMaxWeightCoreExercise);
+			const getCoreExercise = getSpecificExercise(exerciseName);
+			const getCoreExerciseWorkingSets = getSetsFor(getCoreExercise);
+			const getSortedCORE_EXERCISESets = getSortedSets(getCoreExerciseWorkingSets);
+			const getMaxWeightCoreExercise = getMaxSetPerWorkout(getSortedCORE_EXERCISESets);
+			const getDisplayMaxWeightCoreExercise = getSortedMaxSetPerWorkout(getMaxWeightCoreExercise);
 
 			return {
 				exerciseName: exerciseName,
