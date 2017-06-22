@@ -1,9 +1,9 @@
-import { SET_OF_FIVE, SQUAT } from '../utils/constants';
+import { SET_OF_ANY, SQUAT } from '../utils/constants';
 
 const INITIAL_STATE = {
 	graph: {
 		exercise: SQUAT,
-		format: SET_OF_FIVE
+		format: SET_OF_ANY
 	}
 }
 
