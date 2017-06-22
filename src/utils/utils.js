@@ -137,20 +137,20 @@ export const addDateToSets = (sets, workouts, dates, exercises) => {
   }
 
 export const sampleData = [
-  { id: 0, exerciseId: 0, standard: "210 lbs"},
-  { id: 0, exerciseId: 1, standard: "105 lbs"},
-  { id: 0, exerciseId: 2, standard: "150 lbs"},
-  { id: 0, exerciseId: 3, standard: "450 lbs"},
-  { id: 0, exerciseId: 4, standard: "160 lbs"},
-  { id: 0, exerciseId: 5, standard: "130 lbs"},
-  { id: 0, exerciseId: 6, standard: "200 lbs"},
-  { id: 0, exerciseId: 7, standard: "250 lbs"},
-  { id: 0, exerciseId: 8, standard: "250 lbs"},
-  { id: 0, exerciseId: 9, standard: "250 lbs"},
-  { id: 0, exerciseId: 10, standard: "250 lbs"},
-  { id: 0, exerciseId: 11, standard: "250 lbs"},
-  { id: 0, exerciseId: 12, standard: "250 lbs"},
-  { id: 0, exerciseId: 13, standard: "250 lbs"}
+  { id: 0, exerciseId: 0, standard: "245 lbs"},
+  { id: 0, exerciseId: 1, standard: "---"},
+  { id: 0, exerciseId: 2, standard: "315 lbs"},
+  { id: 0, exerciseId: 3, standard: "---"},
+  { id: 0, exerciseId: 4, standard: "---"},
+  { id: 0, exerciseId: 5, standard: "170 lbs"},
+  { id: 0, exerciseId: 6, standard: "---"},
+  { id: 0, exerciseId: 7, standard: "---"},
+  { id: 0, exerciseId: 8, standard: "105 lbs"},
+  { id: 0, exerciseId: 9, standard: "---"},
+  { id: 0, exerciseId: 10, standard: "---"},
+  { id: 0, exerciseId: 11, standard: "+20"},
+  { id: 0, exerciseId: 12, standard: "+5"},
+  { id: 0, exerciseId: 13, standard: "---"}
 ]
 
   export const getLevelLabels = R.map(getNameProp);
