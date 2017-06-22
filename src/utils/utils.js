@@ -159,7 +159,6 @@ export const sampleData = [
   export const getStandardsByExercise = R.compose(R.values, groupByExerciseId);
 
   export const getPersonalizedStandardsByExercise = (data) => {
-    // return mapIndex((standard, i) => { return insertHead(sampleData[i])(standard) })(getStandardsByExercise(data));
-    // return mapIndex((standard, i) => { return insertHead(sampleData[i])(standard) })(getStandardsByExercise(data));
-    return getStandardsByExercise(data);
+    return mapIndex((standard, i) => { return insertHead(sampleData[i])(standard) })(getStandardsByExercise(data));
+    return mapIndex((standard, i) => { return insertHead(sampleData[i])(standard) })(getStandardsByExercise(data));
   }

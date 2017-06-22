@@ -26,7 +26,7 @@ ReactDOM.render(
 	  <Provider store={ store }>
 	   <Router history={browserHistory}>
 	      <Route path="/" component={App}>
-	        <IndexRedirect to='analysis'/>
+	        <IndexRedirect to='dashboard'/>
 	        <Route path="dashboard" component={Dashboard}/>
 	        <Route path="analysis" component={Analysis}/>
 	        <Route path="standards" component={Standards}/>
