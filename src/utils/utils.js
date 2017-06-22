@@ -19,12 +19,30 @@ export const getWeightProp = R.prop('weight');
 export const getDataProp = R.prop('data');
 export const getEstimatedMaxProp = R.prop('estimatedMax');
 
+export const wrapWithProp = R.curry((prop, obj) => {
+  const result = {};
+  result[prop] = obj;
+  return result;
+});
+
 export const getMaxByEstimate = R.maxBy(getEstimatedMaxProp);
 export const getMaxWeightByEstimateFromSets = R.reduce(getMaxByEstimate, {estimatedMax: 0});
 
 export const getMaxByWeight = R.maxBy(getWeightProp);
 export const getMaxWeightFromSets = R.reduce(getMaxByWeight, {weight: 0});
-export const getPRsforExercises = R.map(R.compose(getMaxWeightFromSets, getDataProp));
+
+export const getPRsForExercises = (exercises) => {
+  return R.map(
+  R.compose(
+    wrapWithProp('data'), 
+    getMaxWeightFromSets, 
+    getDataProp
+  ))(exercises)
+};
+
+export const getLabeledPRsforExercises = (exercises) => {  
+  return mapIndex((exercise, i) => R.merge(exercise,  getPRsForExercises(exercises)[i]))(exercises);
+}
 
 export const getOneRepMax = (weight, reps) => {
   return weight/(1.0278 - (0.0278 * reps));
@@ -57,6 +75,11 @@ export const getExerciseFromSet = (set, exercises) => R.find(R.propEq('id', set.
 export const getExerciseByName = (name) => {
   return (exercises) => 
   R.head(R.filter(R.propEq('name',name), exercises));
+}
+
+export const getExerciseById = (id) => {
+  return (exercises) => 
+  R.head(R.filter(R.propEq('id',id), exercises));
 }
 
 export const countSetsByWeight = (workout) => R.countBy(getWeightProp, workout);
@@ -97,12 +120,12 @@ export const getWorkingSetsByReps = (reps) => {
 
 export const sortSetsByWeightAndDate = (workingSets) => {
   return R.sortWith([
-    R.descend(R.prop('weight'))
+    R.descend(getWeightProp)
     ], workingSets);
 }
 
 export const addDateToSets = (sets, workouts, dates, exercises) => {
-    return sets.map((set, i) => {
+    return R.map((set) => {
       const workout = getWorkoutFromSet(set, workouts);
       const day = getDateFromWorkout(workout, dates);
 
@@ -110,11 +133,8 @@ export const addDateToSets = (sets, workouts, dates, exercises) => {
         ...set,
         date: formatDate(day.date), 
       };
-    })
+    })(sets);
   }
-
-
-
 
 export const sampleData = [
   { id: 0, exerciseId: 0, standard: "210 lbs"},
@@ -139,6 +159,7 @@ export const sampleData = [
   export const getStandardsByExercise = R.compose(R.values, groupByExerciseId);
 
   export const getPersonalizedStandardsByExercise = (data) => {
-    let standards = getStandardsByExercise(data);
-    return mapIndex((standard, i) => { return insertHead(sampleData[i])(standard) })(standards);
+    // return mapIndex((standard, i) => { return insertHead(sampleData[i])(standard) })(getStandardsByExercise(data));
+    // return mapIndex((standard, i) => { return insertHead(sampleData[i])(standard) })(getStandardsByExercise(data));
+    return getStandardsByExercise(data);
   }

@@ -1,6 +1,6 @@
 import { statistics, statisticsByLift } from './exercises/exerciseSelectors';
 import { levelLabels, standardsRowData } from './strength/strengthSelectors';
-import { getSetOfFivePR, getMaxWeightPR, getMaxWeightPRByEstimate } from './records/recordSelectors';
+import { getAllTimePRs } from './records/recordSelectors';
 import { createSelector } from 'reselect';
 
 
@@ -28,13 +28,9 @@ export const strengthSelectors = createSelector(
 );
 
 export const recordSelectors = createSelector(
-  getSetOfFivePR,
-  getMaxWeightPR,
-  getMaxWeightPRByEstimate,
-  (getSetOfFivePR, getMaxWeightPR, getMaxWeightPRByEstimate) => {
+  getAllTimePRs,
+  (getAllTimePRs) => {
     return {
-      getSetOfFivePR,
-      getMaxWeightPR,
-      getMaxWeightPRByEstimate
+     getAllTimePRs
     }
   });

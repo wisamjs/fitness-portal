@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import { Router, Route, browserHistory, IndexRedirect } from 'react-router';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import App from './containers/App';
 import Analysis from './containers/Analysis/Analysis';
@@ -16,6 +17,10 @@ import './styles/index.css';
 
 const rootReducer = combineReducers(reducers);
 const store = createStore(rootReducer, {});
+
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin();
 
 ReactDOM.render(
 	  <Provider store={ store }>

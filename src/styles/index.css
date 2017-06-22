@@ -24,16 +24,3 @@ body {
 p, h1, h2, h3, h4 {
 	color: #FFF;
 }
-
-.material-ui-table-fix {
-/*	width: 100%;
-	padding-top: 5px !important;
-	padding-bottom: 5px !important;*/
-/*	padding-left: 35px !important;
-	padding-right: 35px !important;*/
-}
-
-.material-ui-table-parent-fix {
-/*	display: flex;
-	align-items: baseline;*/
-}

@@ -10,6 +10,7 @@ const Graph = ({chartType, title, data, id}) => {
     <div className="border rounded m2 pb3" style={styles}>
       <h2 className="pl3 open-sans blue">{title}</h2>
         <Chart
+        type={chartType}
         width={1000}
         data={data.data} 
         xKey={data.xKey} 

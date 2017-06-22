@@ -5,7 +5,8 @@ import {
   statsForMaxSetOfAny,
 } from '../exercises/selectors';
 
-import { 
+import {
+	getLabeledPRsforExercises,
 	getPRsforExercises,
 	getPRsByEstimateForExercises
 } from '../../utils/utils';
@@ -13,15 +14,28 @@ import {
 
 export const getSetOfFivePR = createSelector(
 	statsForMaxSetOfFive,
-	getPRsforExercises
+	getLabeledPRsforExercises
 );
 
 export const getMaxWeightPR = createSelector(
 	statsForMaxSetOfAny,
-	getPRsforExercises
+	getLabeledPRsforExercises
 );
 
 export const getMaxWeightPRByEstimate = createSelector(
 	statsForMaxSetOfAny,
 	getPRsByEstimateForExercises
 );
+
+export const getAllTimePRs = createSelector(
+	getSetOfFivePR,
+	getMaxWeightPR,
+	getMaxWeightPRByEstimate,
+	(getSetOfFivePR, getMaxWeightPR, getMaxWeightPRByEstimate ) => {
+		return {
+			getSetOfFivePR, 
+			getMaxWeightPR, 
+			getMaxWeightPRByEstimate
+		}
+
+});

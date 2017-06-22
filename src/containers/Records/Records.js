@@ -1,13 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { recordSelectors } from '../../selectors/selectors';
-
+import { exerciseSelectors, recordSelectors } from '../../selectors/selectors';
+import Chart from '../../components/Chart';
 
 
 function mapStateToProps({workouts}) {
-  window.recordSelectors = recordSelectors(workouts);
+  const selectors = recordSelectors(workouts);
 
   return {
+    allTime: selectors.getAllTimePRs
   };
 }
 
@@ -17,11 +18,21 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const Records = () => {
+const styles = {
+  headline: {
+    fontSize: 24,
+    paddingTop: 16,
+    marginBottom: 12,
+    fontWeight: 400,
+  },
+};
+
+const Records = ({allTime}) => {
 
   return (
     <div>
     </div>
+ 
   );
 
 }

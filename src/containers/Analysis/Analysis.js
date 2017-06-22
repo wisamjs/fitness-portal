@@ -61,7 +61,7 @@ const Analysis = ({statisticsByLift, format, exercise, selectFormat, selectExerc
       </div>
 
       <Graph 
-        chartType="SimpleBarChart" 
+        chartType="line chart" 
         title={exercise} 
         data={graphData}>
       </Graph>

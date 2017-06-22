@@ -36,7 +36,7 @@ const Standards = ({standards, levelLabels, rowData}) => {
 
   const standardExercises = R.map(R.prop('name'), standards.exercises);
 
-  const columnHeaders = levelLabels.map((label, id) =>
+  const columnHeaders = levelLabels.slice(0, levelLabels.length - 3 ).map((label, id) =>
     <TableHeaderColumn key={id}>{label}</TableHeaderColumn>
     );
 
@@ -48,7 +48,7 @@ const Standards = ({standards, levelLabels, rowData}) => {
 
     return <TableRow key={id} selected={false}>
       <TableRowColumn>{standardExercises[id]}</TableRowColumn>
-      {columns}
+      {columns.slice(0, columns.length - 3 )}
     </TableRow>
 
   })
