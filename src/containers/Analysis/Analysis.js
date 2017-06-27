@@ -3,11 +3,10 @@ import { connect } from 'react-redux';
 import R from 'ramda';
 
 import { updateWorkoutFormat, updateExercise } from '../../actions/actions';
-import { SET_FORMATS, CORE_EXERCISES } from '../../utils/constants';
+import { CORE_EXERCISES } from '../../utils/constants';
 
 import Graph from '../../components/Graph';
-import GraphRadioGroup from '../../components/GraphRadioGroup';
-
+import Select from '../../components/Select';
 import { exerciseSelectors } from '../../selectors/selectors';
 
 window.R = R;
@@ -19,50 +18,68 @@ function mapStateToProps({workouts, preferences}) {
   return {
     statisticsByLift: workoutData.statisticsByLift,
     format: preferences.graph.format,
-    exercise: preferences.graph.exercise
+    exerciseName: preferences.graph.exercise
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    selectFormat: (e) => dispatch(updateWorkoutFormat(e.target.value)),
-    selectExercise: (e) => dispatch(updateExercise(e.target.value))
+    selectFormat: (e, i, val) => dispatch(updateWorkoutFormat(val)),
+    selectExercise: (e, i, val) => dispatch(updateExercise(val))
 
   };
 }
 
-const Analysis = ({statisticsByLift, format, exercise, selectFormat, selectExercise}) => {
+const Analysis = ({statisticsByLift, format, exerciseName, selectFormat, selectExercise}) => {
   const isFormat = R.propEq('format', format);
-  const exerciseName = R.head(statisticsByLift[exercise].filter(isFormat));
+  const exercise = R.head(statisticsByLift[exerciseName].filter(isFormat));
+
     
   const graphData = {
     xKey: 'date',
     yKey: 'weight',
-    data: exerciseName.data
+    data: exercise.data
   };
+
+  const selectStyles = {
+    selectField: {
+      // width: '150px'
+    },
+
+    label: {
+      fontSize: '24px'
+    },
+    floatingLabel: {
+      color: '#40629B',
+      // display: 'none'
+    }
+  }
 
   
   return (
-    <div>
-      <div className="flex space-between">
-        <GraphRadioGroup
-        name="Format"
-        className=" p1 half-width"
-        defaultSelected={format}
-        onChange={selectFormat}
-        values={SET_FORMATS}/>
-
-        <GraphRadioGroup
+    <div className="rounded card m1 p3">
+      <div className="flex pb2">
+        <Select
         name="Exercises"
+        styles={selectStyles}
         className="p1 half-width"
-        defaultSelected={exercise}
+        defaultSelected={exerciseName}
         onChange={selectExercise}
         values={CORE_EXERCISES}/>
+
+      {
+        // <Select
+        // name="Format"
+        // className=" p1 half-width"
+        // defaultSelected={format}
+        // onChange={selectFormat}
+        // values={SET_FORMATS}/>
+      }
       </div>
 
       <Graph 
         chartType="line chart" 
-        title={exercise} 
+        title={exerciseName} 
         data={graphData}>
       </Graph>
     </div>

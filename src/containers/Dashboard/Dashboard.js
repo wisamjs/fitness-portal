@@ -20,7 +20,6 @@ function mapDispatchToProps(dispatch) {
 const Dashboard = () => {
   const style = {
     width: '46%',
-    border: '1px solid white',
     height: '100%',
     margin: '0 1%',
     borderRadius: '5px'

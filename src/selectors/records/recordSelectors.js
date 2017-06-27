@@ -7,7 +7,6 @@ import {
 
 import {
 	getLabeledPRsforExercises,
-	getPRsforExercises,
 	getPRsByEstimateForExercises
 } from '../../utils/utils';
 

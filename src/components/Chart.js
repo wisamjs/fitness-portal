@@ -4,7 +4,6 @@ import {
   LineChart, 
   BarChart,
   Bar,
-  Brush, 
   XAxis,
   Line,
   YAxis,
@@ -14,16 +13,16 @@ import {
 } from 'recharts';
 
 const Chart = ({data, xKey, yKey, id, type}) => {
+  const interval = Math.floor(data.length / 5);
   
   const lineChart =
      <ResponsiveContainer>
     <LineChart data={data} syncId={id}
       margin={{top: 10, right: 30, left: 0, bottom: 0}}>
-      <XAxis dataKey={xKey}/>
-      <YAxis/>
+      <XAxis dataKey={xKey} interval={interval}/>
+      <YAxis tickCount={10}/>
       <Tooltip/>
-      <Line type='monotone' dataKey={yKey} stroke='#0DE79D' fill='#82ca9d' />
-      <Brush />
+      <Line type='monotone' dataKey={yKey} stroke='#0DE79D' fill='#0DE79D' dot={false} />
     </LineChart>
   </ResponsiveContainer>
 
@@ -54,4 +53,3 @@ Chart.propTypes = {
 }
 
 export default Chart;
-

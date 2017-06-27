@@ -3,24 +3,37 @@ body {
 }
 
 .background {
-	/*background: linear-gradient(to bottom right, #3A96A1, #40629B, #5B325A);*/
-	  /*background: linear-gradient(135deg, rgba(38,125,132,1) 0%, rgba(48,68,154,1) 37%, rgba(48,68,154,1) 64%, rgba(98,52,93,1) 100%);*/
+	background: linear-gradient(to bottom right, #3A96A1, #40629B, #5B325A) no-repeat center center fixed;
+	/*background: linear-gradient(135deg, rgba(38,125,132,1) 0%, rgba(48,68,154,1) 37%, rgba(48,68,154,1) 64%, rgba(98,52,93,1) 100%)  no-repeat center center fixed;*/
 	  height: 100%;
-	  background-color: rgba(0,0,0,0.8);
+	  /*background-color: rgba(0,0,0,0.8);*/
 }
 
 .half-width {
 	width: 50%;
 }
 
+.card {
+	background: #293955;
+}
+
 .temporary {
 	padding: 250px;
 }
+
+.rounded {
+	border-radius: 15px;
+}
+
 
 .white {
 	color: #FFF;
 }
 
-p, h1, h2, h3, h4 {
+p, h1, h3, h4 {
 	color: #FFF;
+}
+
+.h2 {
+	color: #40629B;
 }

@@ -35,12 +35,3 @@ GraphRadioGroup.propTypes = {
 }
 
 export default GraphRadioGroup;
-
-      // <h3 className="white">Format</h3>
-      //  <RadioButtonGroup 
-      //  className="p2" 
-      //  name="Format" 
-      //  defaultSelected={format}
-      //  onChange={selectFormat}>
-      //  {formatButtons}
-      // </RadioButtonGroup>

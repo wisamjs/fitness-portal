@@ -160,5 +160,4 @@ export const sampleData = [
 
   export const getPersonalizedStandardsByExercise = (data) => {
     return mapIndex((standard, i) => { return insertHead(sampleData[i])(standard) })(getStandardsByExercise(data));
-    return mapIndex((standard, i) => { return insertHead(sampleData[i])(standard) })(getStandardsByExercise(data));
   }

@@ -2,21 +2,49 @@ import React, {PropTypes} from 'react';
 import Chart from './Chart';
 
 const styles = {
-	height: '500px'
+  height: '100%'
 }
+
+const chartStyles = {
+
+  boxSizing: 'borderBox',
+  padding: '10px',
+  height: '600px'
+}
+
 
 const Graph = ({chartType, title, data, id}) => {
   return (
-    <div className="border rounded m2 pb3" style={styles}>
-      <h2 className="pl3 open-sans blue">{title}</h2>
-        <Chart
-        type={chartType}
-        width={1000}
-        data={data.data} 
-        xKey={data.xKey} 
-        yKey={data.yKey} 
-        id={id}>
-        </Chart>
+    <div className="rounded" style={styles}>
+       <div style={chartStyles}> 
+          <Chart
+          type={chartType}
+          width={1000}
+          data={data.data} 
+          xKey={data.xKey} 
+          yKey={data.yKey} 
+          id={id}>
+          </Chart>
+        </div>
+  {
+    // <div className="flex p3 justify-between">
+    //     <div>
+    //       <p>150 lb</p>
+    //       <h2>Year</h2>
+    //       </div>
+
+    //     <div>
+    //       <p>150 lb</p>
+    //       <h2>Month</h2>
+    //       </div>
+
+    //     <div>
+    //       <p>150 lb</p>
+    //       <h2>Week</h2>
+    //       </div>
+
+    //   </div>
+    }
     </div>
   );
 }

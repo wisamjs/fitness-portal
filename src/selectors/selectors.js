@@ -1,36 +1,19 @@
 import { statistics, statisticsByLift } from './exercises/exerciseSelectors';
 import { levelLabels, standardsRowData } from './strength/strengthSelectors';
 import { getAllTimePRs } from './records/recordSelectors';
-import { createSelector } from 'reselect';
+import { createStructuredSelector } from 'reselect';
 
 
-export const exerciseSelectors = createSelector(
+export const exerciseSelectors = createStructuredSelector({
   statistics, 
-  statisticsByLift,
-  (statistics, statisticsByLift) => {
-    return {
-      statistics,
-      statisticsByLift
-    }
+  statisticsByLift
+});
 
-  }
-);
-
-export const strengthSelectors = createSelector(
+export const strengthSelectors = createStructuredSelector({
   levelLabels,
-  standardsRowData,
-  (levelLabels, standardsRowData) => {
-    return {
-      levelLabels,
-      standardsRowData
-    }
-  }
-);
+  standardsRowData
+});
 
-export const recordSelectors = createSelector(
-  getAllTimePRs,
-  (getAllTimePRs) => {
-    return {
-     getAllTimePRs
-    }
-  });
+export const recordSelectors = createStructuredSelector({
+  getAllTimePRs
+});
