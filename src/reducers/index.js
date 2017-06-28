@@ -1,11 +1,11 @@
-import workouts from './workouts';
+import history from './history';
 import profile from './profile';
 import preferences from './preferences';
-import standards from './standards';
+import strength from './strength';
 
 export {
-	workouts,
-	standards,
+	history,
+	strength,
 	profile,
 	preferences
 };

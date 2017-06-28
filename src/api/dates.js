@@ -1,5 +1,5 @@
 import {fetchFromApi} from './utils';
 
-export const getWorkouts = () =>
-fetchFromApi('GET', 'workouts')
+export const getDates = () =>
+fetchFromApi('GET', 'dates')
 	.then(resp => resp.json());

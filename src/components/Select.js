@@ -16,7 +16,7 @@ const Select = ({name, defaultSelected, onChange, values, className, styles = {}
   return (
     <div className={className}>
       <SelectField
-      style = {styles.selectField}
+      style={styles.selectField}
       underlineStyle={{display: 'none'}}
       labelStyle={styles.label}
       floatingLabelStyle={styles.floatingLabel}

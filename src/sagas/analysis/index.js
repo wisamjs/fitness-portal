@@ -1,22 +1,32 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, all, put, takeLatest } from 'redux-saga/effects';
 
 import {
-  FETCH_WORKOUTS_API,
-  FETCH_WORKOUTS_API_SUCCESS,
-  FETCH_WORKOUTS_API_ERROR,
+  ON_APP_MOUNT,
+  ON_APP_MOUNT_SUCCESS,
+  ON_APP_MOUNT_ERROR,
 } from '../../actions/consts';
 
 import { getWorkouts } from '../../api/workouts';
+import { getExercises } from '../../api/exercises';
+import { getDates } from '../../api/dates';
+import { getWorkingSets } from '../../api/workingSets';
 
-export function* apiSideEffect(action) {
+export function* fetchAppData(action) {
   try {
-    const user = yield call(getWorkouts);
-    yield put({ type: FETCH_WORKOUTS_API_SUCCESS, payload: user });
+
+    const [workouts, exercises, dates, workingSets] = yield all([
+      call(getWorkouts), 
+      call(getExercises),
+      call(getDates),
+      call(getWorkingSets)
+    ]);
+
+    yield put({ type: ON_APP_MOUNT_SUCCESS, payload: { workouts, exercises, dates, workingSets} });
   } catch (e) {
-    yield put({ type: FETCH_WORKOUTS_API_ERROR, message: e.message });
+    yield put({ type: ON_APP_MOUNT_ERROR, message: e.message });
   }
 }
 
 export function* apiSaga() {
-  yield takeLatest(FETCH_WORKOUTS_API, apiSideEffect);
+  yield takeLatest(ON_APP_MOUNT, fetchAppData);
 }

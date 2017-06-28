@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import R from 'ramda';
 
-import { strengthSelectors } from '../../selectors/selectors';
+import { strengthSelectors } from '../../selectors/strength';
 
 import {
   Table,
@@ -15,14 +15,14 @@ import {
 
 window.R = R;
 
-function mapStateToProps({workouts, preferences, standards}) {
-  const selectors = strengthSelectors(standards);
-  window.workouts = workouts;
+function mapStateToProps(state) {
+  const selectors = strengthSelectors(state);
 
   return {
-    standards: standards,
+    standards: [],
     levelLabels: selectors.levelLabels,
-    rowData: selectors.standardsRowData
+    rowData: selectors.standardsRowData,
+    exercises: selectors.exercises
   };
 }
 
@@ -31,10 +31,11 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const Standards = ({standards, levelLabels, rowData}) => {
+const Standards = ({levelLabels, rowData, exercises}) => {
+
   const mapIndex = R.addIndex(R.map);
 
-  const standardExercises = R.map(R.prop('name'), standards.exercises);
+  const standardExercises = R.map(R.prop('name'), exercises);
 
   const columnHeaders = levelLabels.slice(0, levelLabels.length - 3 ).map((label, id) =>
     <TableHeaderColumn key={id}>{label}</TableHeaderColumn>

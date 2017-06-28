@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import customTheme from '../styles/customTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import Spinner from '../components/Spinner';
 
 import {fetchWorkouts} from '../actions/actions';
 
@@ -15,16 +16,17 @@ class App extends Component {
 	render() {
 		return (
 			<MuiThemeProvider  muiTheme={getMuiTheme(customTheme)}>
-	    	<div>
-	      	{this.props.children}
-	    	</div>
+			{
+				this.props.loading ? <Spinner/> : this.props.children
+			}
     	</MuiThemeProvider>
   	);
 	}
 }
 
-function mapStateToProps({workouts, preferences}) {
+function mapStateToProps({history, preferences}) {
   return {
+  	loading: history.loading
   };
 }
 

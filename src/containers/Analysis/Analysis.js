@@ -7,12 +7,12 @@ import { CORE_EXERCISES } from '../../utils/constants';
 
 import Graph from '../../components/Graph';
 import Select from '../../components/Select';
-import { exerciseSelectors } from '../../selectors/selectors';
+import { historySelectors } from '../../selectors/history';
 
 window.R = R;
 
-function mapStateToProps({workouts, preferences}) {
-  const workoutData = exerciseSelectors(workouts);
+function mapStateToProps({history, preferences}) {
+  const workoutData = historySelectors(history);
   window.workoutData = workoutData;
 
   return {

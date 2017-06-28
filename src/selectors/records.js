@@ -1,15 +1,14 @@
-import { createSelector } from 'reselect';
+import { createSelector, createStructuredSelector } from 'reselect';
 
 import { 
   statsForMaxSetOfFive, 
   statsForMaxSetOfAny,
-} from '../exercises/selectors';
+} from '../history/selectors';
 
 import {
 	getLabeledPRsforExercises,
 	getPRsByEstimateForExercises
 } from '../../utils/utils';
-
 
 export const getSetOfFivePR = createSelector(
 	statsForMaxSetOfFive,
@@ -37,4 +36,8 @@ export const getAllTimePRs = createSelector(
 			getMaxWeightPRByEstimate
 		}
 
+});
+
+export const recordSelectors = createStructuredSelector({
+  getAllTimePRs
 });

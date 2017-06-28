@@ -1,28 +1,35 @@
-import { createSelector } from 'reselect';
 import { 
-	SET_OF_ANY, 
-	SET_OF_FIVE, 
-	FIVE_SETS_OF_FIVE, 
-	CORE_EXERCISES 
-} from '../../utils/constants';
+  createSelector, 
+  createStructuredSelector 
+} from 'reselect';
+
 import R from 'ramda';
+
+import { 
+  SET_OF_ANY, 
+  SET_OF_FIVE, 
+  FIVE_SETS_OF_FIVE, 
+  CORE_EXERCISES 
+} from '../utils/constants';
+
 import {
-getState,
+  getState,
   getExercises,
-  getExerciseByName,
+  getWorkouts,
   getWorkingSets,
+  getDates,
+  
+  getExerciseByName,
+  getSetsByWorkout,
   getWorkingSetsForExercise,
   getWorkingSetsByReps,
-  getSetsByWorkout,
   getFiveSetsofFiveReps,
   sortSetsByWeightAndDate,
-  getworkouts,
-  getDates,
   addDateToSets
-} from '../../utils/utils';
+} from './raw-selectors';
 
 
-  export const getSpecificExercise = (name) => {
+export const getSpecificExercise = (name) => {
 	return createSelector(
   	getExercises, 
   	getExerciseByName(name)
@@ -81,7 +88,7 @@ export const getSortedMaxSetPerWorkout = (sets) => {
 export const getSetsWithDates = (sets) => {
   return createSelector(
   sets,
-  getworkouts,
+  getWorkouts,
   getDates,
   getExercises,
   addDateToSets);
@@ -149,3 +156,43 @@ export const statsForMaxSetOfFive = createSelector(
 			}
 		});
 	});
+
+export const statistics = createSelector(
+  statsForMaxSetOfFive,
+  statsForMaxSetOfAny,
+  statsForMaxFiveSetOfFive,
+  (maxSetOfFive, maxSetOfAny, maxFiveSetsofFive) => {
+  	return {
+  		maxSetOfFive: {
+  			name: 'Set of Five',
+  			data: maxSetOfFive
+  		},
+  		maxSetOfAny: {
+  			name: 'Set of Any',
+  			data: maxSetOfAny
+  		},
+
+      maxFiveSetsofFive: {
+        name: 'Five Sets of Five',
+        data: maxFiveSetsofFive
+      }
+  	}
+  });
+
+export const statisticsByLift = createSelector(
+  statsForMaxSetOfFive,
+  statsForMaxSetOfAny,
+  statsForMaxFiveSetOfFive,
+  (maxSetOfFive, maxSetOfAny, maxFiveSetsofFive) =>
+    R.groupBy(R.prop('exerciseName'), maxSetOfFive
+    .concat(maxSetOfAny)
+    .concat(maxFiveSetsofFive)
+  ));
+
+export const historySelectors = createStructuredSelector({
+  statistics, 
+  statisticsByLift
+});
+
+
+

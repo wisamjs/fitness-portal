@@ -1,29 +1,42 @@
 import R from 'ramda';
 import moment from 'moment';
 
-export const mapIndex = R.addIndex(R.map);
-export const insertHead = R.insert(0);
-export const idIs = R.propEq('id');
-
-
+//High-level props
 export const getState = (state) => state;
+export const getStrength = (state) => R.prop('strength');
+export const getHistory = (state) => R.prop('history');
+
+//History props
 export const getExercises = R.prop('exercises');
 export const getDates = R.prop('dates');
-export const getworkouts = R.prop('workouts');
+export const getWorkouts = R.prop('workouts');
 export const getWorkingSets = R.prop('workingSets');
-export const getNameProp = R.prop('name');
-export const getExerciseIdProp = R.prop('exerciseId');
+
+//Strength props
 export const getStandardsProp = R.prop('standards');
 export const getLevelsProp  = R.prop('levels');
+
+//Low-level props
+export const getNameProp = R.prop('name');
+export const getExerciseIdProp = R.prop('exerciseId');
 export const getWeightProp = R.prop('weight');
 export const getDataProp = R.prop('data');
 export const getEstimatedMaxProp = R.prop('estimatedMax');
+
+//custom helper functions
+export const mapIndex = R.addIndex(R.map);
+export const insertHead = R.insert(0);
+export const idIs = R.propEq('id');
 
 export const wrapWithProp = R.curry((prop, obj) => {
   const result = {};
   result[prop] = obj;
   return result;
 });
+
+export const getOneRepMax = (weight, reps) => {
+  return weight/(1.0278 - (0.0278 * reps));
+}
 
 export const getMaxByEstimate = R.maxBy(getEstimatedMaxProp);
 export const getMaxWeightByEstimateFromSets = R.reduce(getMaxByEstimate, {estimatedMax: 0});
@@ -44,9 +57,7 @@ export const getLabeledPRsforExercises = (exercises) => {
   return mapIndex((exercise, i) => R.merge(exercise,  getPRsForExercises(exercises)[i]))(exercises);
 }
 
-export const getOneRepMax = (weight, reps) => {
-  return weight/(1.0278 - (0.0278 * reps));
-}
+
 
 export const addOneRepEstimate = R.map((workoutData) => {
   return {
@@ -63,7 +74,6 @@ export const getPRsByEstimateForExercises = R.map(
     )
 );
 
-
 export const formatDate = (date) => moment(date, 'MMM DD, YYYY').format('MMM DD');
 
 export const getDateFromWorkout = (workout, dates) => R.find(R.propEq('id', workout.dateId),dates);
@@ -73,7 +83,7 @@ export const getWorkoutFromSet = (set, workouts) => R.find(idIs(set.workoutId), 
 export const getExerciseFromSet = (set, exercises) => R.find(R.propEq('id', set.exerciseId),exercises);
 
 export const getExerciseByName = (name) => {
-  return (exercises) => 
+  return (exercises = []) => 
   R.head(R.filter(R.propEq('name',name), exercises));
 }
 
@@ -85,7 +95,7 @@ export const getExerciseById = (id) => {
 export const countSetsByWeight = (workout) => R.countBy(getWeightProp, workout);
 
 
-export const getWorkingSetsForExercise = (exercise, workingSets) => {
+export const getWorkingSetsForExercise = (exercise = '', workingSets = []) => {
     return R.filter(
       R.propEq('exerciseId', exercise.id),
       workingSets
@@ -125,6 +135,7 @@ export const sortSetsByWeightAndDate = (workingSets) => {
 }
 
 export const addDateToSets = (sets, workouts, dates, exercises) => {
+  if (workouts){
     return R.map((set) => {
       const workout = getWorkoutFromSet(set, workouts);
       const day = getDateFromWorkout(workout, dates);
@@ -135,29 +146,14 @@ export const addDateToSets = (sets, workouts, dates, exercises) => {
       };
     })(sets);
   }
-
-export const sampleData = [
-  { id: 0, exerciseId: 0, standard: "245 lbs"},
-  { id: 0, exerciseId: 1, standard: "---"},
-  { id: 0, exerciseId: 2, standard: "315 lbs"},
-  { id: 0, exerciseId: 3, standard: "---"},
-  { id: 0, exerciseId: 4, standard: "---"},
-  { id: 0, exerciseId: 5, standard: "170 lbs"},
-  { id: 0, exerciseId: 6, standard: "---"},
-  { id: 0, exerciseId: 7, standard: "---"},
-  { id: 0, exerciseId: 8, standard: "105 lbs"},
-  { id: 0, exerciseId: 9, standard: "---"},
-  { id: 0, exerciseId: 10, standard: "---"},
-  { id: 0, exerciseId: 11, standard: "+20"},
-  { id: 0, exerciseId: 12, standard: "+5"},
-  { id: 0, exerciseId: 13, standard: "---"}
-]
+  return sets;
+  }
 
   export const getLevelLabels = R.map(getNameProp);
-  export const getPersonalizedLevelLabels =  R.compose(insertHead('You'), getLevelLabels);
+  export const getPersonalizedLevelLabels =  R.compose(getLevelLabels);
   export const groupByExerciseId = R.groupBy(getExerciseIdProp);
   export const getStandardsByExercise = R.compose(R.values, groupByExerciseId);
 
   export const getPersonalizedStandardsByExercise = (data) => {
-    return mapIndex((standard, i) => { return insertHead(sampleData[i])(standard) })(getStandardsByExercise(data));
+    return getStandardsByExercise(data);
   }

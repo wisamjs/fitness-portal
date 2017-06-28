@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Analysis from '../Analysis/Analysis';
 import Standards from '../Standards/Standards';
+import Paper from 'material-ui/Paper';
 
 
 function mapStateToProps({workouts, preferences}) {
@@ -27,12 +28,16 @@ const Dashboard = () => {
 
   return (
     <div className="flex">
-      <div style={style}>
+      <Paper
+      style={style} 
+      zDepth={2}>
         <Analysis></Analysis>
-      </div>
-      <div style={style}>
+      </Paper>
+      <Paper 
+      style={style}
+      zDepth={2}>
         <Standards></Standards>
-      </div>
+      </Paper>
     </div>
   );
 
