@@ -22,11 +22,35 @@ export const getExerciseIdProp = R.prop('exerciseId');
 export const getWeightProp = R.prop('weight');
 export const getDataProp = R.prop('data');
 export const getEstimatedMaxProp = R.prop('estimatedMax');
+export const getWorkoutId = R.prop('workoutId');
 
 //custom helper functions
 export const mapIndex = R.addIndex(R.map);
 export const insertHead = R.insert(0);
-export const idIs = R.propEq('id');
+
+export const idEq = R.propEq('id');
+export const nameEq = R.propEq('name');
+export const weightEq = R.propEq('weight');
+export const repsEq = R.propEq('reps');
+export const exerciseIdEq = R.propEq('excerciseId');
+
+// Data retrieval by referencing foreign key
+export const getDateFromWorkout = (workout, dates) => R.find(idEq(workout.dateId),dates);
+export const getWorkoutFromSet = (set, workouts) => R.find(idEq(set.workoutId), workouts);
+export const getExerciseFromSet = (set, exercises) => R.find(idEq(set.exerciseId),exercises);
+
+// Data grouping
+export const groupDataByProp = R.curry((getProp, data ) => R.values(R.groupBy(getProp)(data)))
+export const groupByExerciseId = R.groupBy(getExerciseIdProp);
+
+// Max data retrieval
+export const getMaxByEstimate = R.maxBy(getEstimatedMaxProp);
+export const getMaxWeightByEstimateFromSets = R.reduce(getMaxByEstimate, {estimatedMax: 0});
+export const getMaxByWeight = R.maxBy(getWeightProp);
+export const getMaxWeightFromSets = R.reduce(getMaxByWeight, {weight: 0});
+
+// Date & Time handling
+export const formatDate = (date) => moment(date, 'MMM DD, YYYY').format('MMM DD');
 
 export const wrapWithProp = R.curry((prop, obj) => {
   const result = {};
@@ -38,12 +62,6 @@ export const getOneRepMax = (weight, reps) => {
   return weight/(1.0278 - (0.0278 * reps));
 }
 
-export const getMaxByEstimate = R.maxBy(getEstimatedMaxProp);
-export const getMaxWeightByEstimateFromSets = R.reduce(getMaxByEstimate, {estimatedMax: 0});
-
-export const getMaxByWeight = R.maxBy(getWeightProp);
-export const getMaxWeightFromSets = R.reduce(getMaxByWeight, {weight: 0});
-
 export const getPRsForExercises = (exercises) => {
   return R.map(
   R.compose(
@@ -53,9 +71,12 @@ export const getPRsForExercises = (exercises) => {
   ))(exercises)
 };
 
-export const getLabeledPRsforExercises = (exercises) => {  
-  return mapIndex((exercise, i) => R.merge(exercise,  getPRsForExercises(exercises)[i]))(exercises);
-}
+export const getLabeledPRsforExercises = (exercises) => 
+  mapIndex(
+    (exercise, i) => R.merge(
+      exercise,  
+      getPRsForExercises(exercises)[i])
+  );
 
 
 
@@ -71,29 +92,21 @@ export const getPRsByEstimateForExercises = R.map(
     getMaxWeightByEstimateFromSets, 
     addOneRepEstimate, 
     getDataProp
-    )
+  )
 );
 
-export const formatDate = (date) => moment(date, 'MMM DD, YYYY').format('MMM DD');
-
-export const getDateFromWorkout = (workout, dates) => R.find(R.propEq('id', workout.dateId),dates);
-export const getSetsByWorkout = (sets) => R.values(R.groupBy(R.prop('workoutId'))(sets));
-
-export const getWorkoutFromSet = (set, workouts) => R.find(idIs(set.workoutId), workouts);
-export const getExerciseFromSet = (set, exercises) => R.find(R.propEq('id', set.exerciseId),exercises);
-
+// Data filtering
 export const getExerciseByName = (name) => {
   return (exercises = []) => 
-  R.head(R.filter(R.propEq('name',name), exercises));
+  R.head(R.filter(nameEq(name), exercises));
 }
 
 export const getExerciseById = (id) => {
   return (exercises) => 
-  R.head(R.filter(R.propEq('id',id), exercises));
+  R.head(R.filter(idEq(id), exercises));
 }
 
 export const countSetsByWeight = (workout) => R.countBy(getWeightProp, workout);
-
 
 export const getWorkingSetsForExercise = (exercise = '', workingSets = []) => {
     return R.filter(
@@ -102,7 +115,6 @@ export const getWorkingSetsForExercise = (exercise = '', workingSets = []) => {
     )
 };  
 
-
 export const getMultipleSetsofFiveReps = (repLimit) => {
     return R.reduce(function(sets, workout) {
       var mostReps = R.filter(R.lte(repLimit) , countSetsByWeight(workout));
@@ -110,7 +122,7 @@ export const getMultipleSetsofFiveReps = (repLimit) => {
 
       if (hasMultipleSetsOfFive) {
         var set = R.head(R.filter(function(set) {
-          return R.propEq('weight', set.weight)
+          return weightEq( set.weight)
         }, workout));
         return sets.concat(set);
       }
@@ -123,7 +135,7 @@ export const getFiveSetsofFiveReps = (workouts) => getMultipleSetsofFiveReps(5)(
 
 export const getWorkingSetsByReps = (reps) => {
   return (workingSets) => R.filter(
-      R.propEq('reps', reps),
+      repsEq( reps),
       workingSets
     );
   }
@@ -151,7 +163,6 @@ export const addDateToSets = (sets, workouts, dates, exercises) => {
 
   export const getLevelLabels = R.map(getNameProp);
   export const getPersonalizedLevelLabels =  R.compose(getLevelLabels);
-  export const groupByExerciseId = R.groupBy(getExerciseIdProp);
   export const getStandardsByExercise = R.compose(R.values, groupByExerciseId);
 
   export const getPersonalizedStandardsByExercise = (data) => {

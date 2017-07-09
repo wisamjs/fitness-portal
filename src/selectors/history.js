@@ -17,10 +17,11 @@ import {
   getExercises,
   getWorkouts,
   getWorkingSets,
+  getWorkoutId,
   getDates,
   
   getExerciseByName,
-  getSetsByWorkout,
+  groupDataByProp,
   getWorkingSetsForExercise,
   getWorkingSetsByReps,
   getFiveSetsofFiveReps,
@@ -61,7 +62,8 @@ export const getSortedSets = (sets) => {
 export const groupSetsByWorkout = (sets) => {
   return createSelector(
     sets,
-    getSetsByWorkout)
+    groupDataByProp(getWorkoutId)
+  )
 }
 
 export const getFiveSetsofFive = (workouts) => {

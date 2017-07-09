@@ -1,6 +1,6 @@
 import { fork } from 'redux-saga/effects';
 
-import { apiSaga } from './analysis/';
+import { apiSaga } from './history/';
 
 function* rootSaga() {
   yield [
